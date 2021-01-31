@@ -13,4 +13,6 @@ jobs:
     - uses: actions/setup-node@v2
     - run: npm i 
     - run: sudo apt install chromium-browser
+    - run: node man.js
+    - run: ls -l ./
     
