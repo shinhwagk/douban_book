@@ -12,5 +12,5 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
     - run: npm i 
-    - run: apt install -y chromium
+    - run: sudo apt install -y chromium
     
