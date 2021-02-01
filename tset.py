@@ -11,12 +11,13 @@ with open('book_info.html') as f:
 # print(book_info)
 
 
-soup = BeautifulSoup(book_list, "html.parser")
-for book_info in soup.find_all('li', {'class', 'subject-item'}):
-    print(book_info.find('a').get('href'))
+# soup = BeautifulSoup(book_list, "html.parser")
+# for book_info in soup.find_all('li', {'class', 'subject-item'}):
+#     print(book_info.find('a').get('href'))
 
-# soup2 = BeautifulSoup(book_info, "html.parser")
-# name = soup2.find('div', id='wrapper').find('h1').find('span').get_text()
+soup2 = BeautifulSoup(book_info, "html.parser")
+name = soup2.find('div', id='wrapper').find('h1').find('span').get_text()
+print(name)
 # rating = soup2.find('strong', {'class': 'll rating_num'}).get_text()
 # people_num = soup2.find('a', {'class': 'rating_people'})
 

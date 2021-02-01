@@ -56,7 +56,7 @@ def get_book_info(url):
     except Exception as e:
         print(e)
     soup = BeautifulSoup(plain_text, "html.parser")
-    name = soup.find('div', id='wrapper').find('h1').find('span').get_text()
+    name = soup.find('span', {'property': 'v:itemreviewed'}).get_text()
     rating = soup.find('strong', {'class': 'll rating_num'}).get_text()
     people_dom = soup.find('a', {'class': 'rating_people'})
     # people_num = soup.find('div', {'class': 'rating_sum'}).findAll('span')[
@@ -125,4 +125,6 @@ if __name__ == '__main__':
     # book_tag_lists = ['科幻','思维','金融']
     # book_tag_lists = ['个人管理', '时间管理', '投资', '文化', '宗教']
     book_lists = do_spider(book_tag_lists)
+    print(book_lists)
     # print_book_lists_excel(book_lists, book_tag_lists)
+    # get_book_info('https://book.douban.com/subject/1449351/')
