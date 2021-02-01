@@ -22,6 +22,7 @@ def book_spider(book_tag):
         try:
             r = requests.get(url, headers=hds[page_num % len(hds)])
             plain_text = r.text
+            print(len(plain_text))
         except Exception as e:
             print(e)
             continue
