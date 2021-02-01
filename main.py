@@ -15,7 +15,7 @@ def book_spider(book_tag):
     page_num = 0
     book_list = []
 
-    while(1):
+    while(True):
         url = "http://www.douban.com/tag/{}?start={}&type={}".format(
             book_tag, page_num*20, 'T')
 
@@ -94,7 +94,7 @@ def print_book_lists_excel(book_lists, book_tag_lists):
     ws = []
     for i in range(len(book_tag_lists)):
         # utf8->unicode
-        ws.append(wb.create_sheet(title=book_tag_lists[i].decode()))
+        ws.append(wb.create_sheet(title=book_tag_lists[i]))
     for i in range(len(book_tag_lists)):
         ws[i].append(['序号', '书名', '评分', '评价人数', '作者', '出版社'])
         count = 1
@@ -122,4 +122,4 @@ if __name__ == '__main__':
     # book_tag_lists = ['科幻','思维','金融']
     # book_tag_lists = ['个人管理', '时间管理', '投资', '文化', '宗教']
     book_lists = do_spider(book_tag_lists)
-    print_book_lists_excel(book_lists, book_tag_lists)
+    # print_book_lists_excel(book_lists, book_tag_lists)
