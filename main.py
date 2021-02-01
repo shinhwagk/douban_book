@@ -27,8 +27,6 @@ def book_spider(book_tag):
             print(e)
             continue
 
-        with open('abc.html', 'w')as f:
-            f.write(plain_text)
         soup = BeautifulSoup(plain_text, "html.parser")
         books = soup.find_all('li', {'class', 'subject-item'})
         print(book_tag, page_num, len(books))
@@ -46,10 +44,12 @@ def book_spider(book_tag):
         page_num += 1
         print('Downloading Information From Page %d' % page_num)
         time.sleep(random.random()*5)
+        break
     return book_list
 
 
 def get_book_info(url):
+    plain_text = ""
     try:
         r = requests.get(url, headers=hds[random.randint(0, len(hds))])
         plain_text = r.text
