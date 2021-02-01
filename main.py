@@ -16,8 +16,9 @@ def book_spider(book_tag):
     book_list = []
 
     while(True):
-        url = "http://www.douban.com/tag/{}?start={}&type={}".format(
+        url = "http://book.douban.com/tag/{}?start={}&type={}".format(
             book_tag, page_num*20, 'T')
+        print(url)
         plain_text = ""
         try:
             r = requests.get(url, headers=hds[page_num % len(hds)])
@@ -26,7 +27,8 @@ def book_spider(book_tag):
             print(e)
             continue
 
-        print(len(plain_text))
+        with open('abc.html', 'w')as f:
+            f.write(plain_text)
         soup = BeautifulSoup(plain_text, "html.parser")
         books = soup.find_all('li', {'class', 'subject-item'})
         print(book_tag, page_num, len(books))
