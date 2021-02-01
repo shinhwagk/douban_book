@@ -25,7 +25,6 @@ def book_spider(book_tag):
             plain_text = r.text
         except Exception as e:
             print(e)
-            continue
 
         soup = BeautifulSoup(plain_text, "html.parser")
         books = soup.find_all('li', {'class', 'subject-item'})
