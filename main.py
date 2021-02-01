@@ -18,11 +18,10 @@ def book_spider(book_tag):
     while(True):
         url = "http://www.douban.com/tag/{}?start={}&type={}".format(
             book_tag, page_num*20, 'T')
-
+        plain_text = ""
         try:
             r = requests.get(url, headers=hds[page_num % len(hds)])
             plain_text = r.text
-            print(len(plain_text))
         except Exception as e:
             print(e)
             continue
