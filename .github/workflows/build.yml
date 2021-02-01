@@ -13,5 +13,5 @@ jobs:
     - uses: actions/setup-python@v2
     - run: pip install requests bs4 openpyxl
     - run: python main.py
-    - run: ls -l
+    - run: ls -l ./
     

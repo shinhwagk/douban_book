@@ -36,6 +36,7 @@ def book_spider(book_tag):
             book_url = b.find('a').get('href')
             print(book_url)
             name, rating, people_num, info = get_book_info(book_url)
+            print(name, rating, people_num, info)
 
             book_list.append(
                 [name, rating, people_num, info])
@@ -51,11 +52,14 @@ def get_book_info(url):
     plain_text = ""
     try:
         r = requests.get(url, headers=hds[random.randint(0, len(hds))])
+        print(r.status_code)
         plain_text = r.text
+        with open('url/'+url.split('/')[4], 'w') as f:
+            f.write(plain_text)
     except Exception as e:
         print(e)
     soup = BeautifulSoup(plain_text, "html.parser")
-    name = soup.find('span', {'property': 'v:itemreviewed'}).get_text()
+    name = soup.find('span', {'property': 'v:itemreviewed'})
     rating = soup.find('strong', {'class': 'll rating_num'}).get_text()
     people_dom = soup.find('a', {'class': 'rating_people'})
     # people_num = soup.find('div', {'class': 'rating_sum'}).findAll('span')[
@@ -126,4 +130,4 @@ if __name__ == '__main__':
     book_lists = do_spider(book_tag_lists)
     print(book_lists)
     # print_book_lists_excel(book_lists, book_tag_lists)
-    # get_book_info('https://book.douban.com/subject/1449351/')
+    # print(get_book_info('https://book.douban.com/subject/1449351/'))
