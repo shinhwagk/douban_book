@@ -54,7 +54,7 @@ def get_book_info(url):
         r = requests.get(url, headers=hds[random.randint(0, len(hds))])
         print(r.status_code)
         plain_text = r.text
-        with open('url/'+url.split('/')[4], 'w') as f:
+        with open('urls/'+url.split('/')[4], 'w') as f:
             f.write(plain_text)
     except Exception as e:
         print(e)
