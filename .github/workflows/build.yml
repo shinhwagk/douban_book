@@ -10,9 +10,9 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-    - run: npm i 
+    - uses: actions/setup-python@v2
+    - run: pip install requests bs4
     - run: sudo apt install chromium-browser
-    - run: node main.js
-    - run: ls -l ./
+    - run: python main.py
+    - run: ls -l
     

@@ -1,34 +1,34 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-const tags = ['理财', '金融'];
-(async () => {
+// const tags = ['理财', '金融'];
+
+(async () => await main())();
+
+async function main() {
+    const argTag = process.argv[2]
     const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     const page = await browser.newPage();
-    // const tag = '金融'
-    for (const tag of tags) {
-        await getTags(tag, page)
-    }
+    await getTags(argTag, page)
     await browser.close();
-})();
+}
 
 async function getTags(tag, page) {
-    let start = 0
     const BOOKURLS = [];
     while (true) {
-        const bookUrls = await getTagUrls(page, tag, start)
-        bookUrls.forEach(u => BOOKURLS.push(u))
-        start += 20
+        const start = BOOKURLS.length
+        const books = await getTagBooks(page, tag, start)
         console.log(tag, start)
-        if (bookUrls.length === 0) {
+        if (books.length === 0) {
             break
         }
+        books.forEach(u => BOOKURLS.push(u))
     }
     console.log(BOOKURLS, BOOKURLS.length)
     fs.writeFileSync(`tag_${tag}.json`, JSON.stringify(BOOKURLS), { encoding: 'utf8' })
 }
 
-async function getTagUrls(page, tag, start) {
+async function getTagBooks(page, tag, start) {
     await page.goto(`https://book.douban.com/tag/${tag}?start=${start}`, { waitUntil: 'networkidle2' });
     return await page.evaluate(() => {
         const urls = []
