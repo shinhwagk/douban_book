@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
     - run: pip install requests bs4 openpyxl
-    - run: sudo apt install chromium-browser
+    # - run: sudo apt install chromium-browser
     - run: python main.py
     - run: ls -l
     
