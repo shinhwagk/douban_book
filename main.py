@@ -26,6 +26,7 @@ def book_spider(book_tag):
             print(e)
             continue
 
+        print(len(plain_text))
         soup = BeautifulSoup(plain_text, "html.parser")
         books = soup.find_all('li', {'class', 'subject-item'})
         print(book_tag, page_num, len(books))
