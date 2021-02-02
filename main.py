@@ -45,8 +45,11 @@ def get_book_info(dom):
     name = dom.find('div', {'class': 'info'}).find('h2').find('a').get_text()
     info = dom.find('div', {'class': 'info'}).find(
         'div', {'class': 'pub'}).get_text()
-    rating = dom.find('div', {'class': 'info'}).find(
-        'span', {'class': 'rating_nums'}).get_text()
+    rating_dom = dom.find('div', {'class': 'info'}).find(
+        'span', {'class': 'rating_nums'})
+    rating = 0
+    if rating_dom is not None:
+        rating = rating_dom.get_text()
     people_num = dom.find('div', {'class': 'info'}).find(
         'span', {'class': 'pl'}).get_text()
     return [name, rating, people_num, info]
