@@ -29,8 +29,10 @@ def book_spider(book_tag):
         print(book_tag, page_num, len(books))
         if len(books) == 0:
             break
-        for b in books:
-            name, rating, people_num, info = get_book_info(b)
+
+        # for b in books:
+        for i in range(len(books)):
+            name, rating, people_num, info = get_book_info(books[i])
             book_list.append(
                 [name, rating, people_num, info])
             time.sleep(random.random()*5)
