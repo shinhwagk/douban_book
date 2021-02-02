@@ -15,6 +15,8 @@ jobs:
     - run: mkdir urls
     - run: python main.py
     - run: |
+        git config --global user.email "shinhwagk@outlook.com"
+        git config --global user.name "shinhwagk"
         git add book_list*
         git commit -m "test"
         git push
