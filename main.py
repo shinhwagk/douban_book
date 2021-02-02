@@ -25,13 +25,13 @@ def book_spider(book_tag):
             print(e)
 
         soup = BeautifulSoup(plain_text, "html.parser")
-        books = soup.find_all('li', {'class', 'subject-item'})
+        books = soup.find_all('li', {'class', 'subject-item'}) or []
         if len(books) == 0:
             break
 
         # for b in books:
-        for i in range(len(books)-1):
-            print(book_tag, page_num, len(books), i+1)
+        for i in range(len(books)):
+            print(book_tag, page_num, len(books), i)
             name, rating, people_num, info = get_book_info(books[i])
             book_list.append([name, rating, people_num, info])
             time.sleep(random.random()*5)
