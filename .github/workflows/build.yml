@@ -14,5 +14,8 @@ jobs:
     - run: pip install requests bs4 openpyxl
     - run: mkdir urls
     - run: python main.py
-    - run: ls -l ./
+    - run: |
+        git add book_list*
+        git commit -m "test"
+        git push
     

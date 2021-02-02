@@ -4,14 +4,13 @@ import random
 from bs4 import BeautifulSoup
 from openpyxl import Workbook
 
-
-# Some User Agents
 hds = [{'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'},
        {'User-Agent': 'Mozilla/5.0 (Windows NT 6.2) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.12 Safari/535.11'},
        {'User-Agent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)'}]
 
 
 def book_spider(book_tag):
+    cnt = 0
     page_num = 0
     book_list = []
 
@@ -33,57 +32,30 @@ def book_spider(book_tag):
             break
 
         for b in books:
-            book_url = b.find('a').get('href')
-            print(book_url)
-            name, rating, people_num, info = get_book_info(book_url)
+            name, rating, people_num, info = get_book_info(b)
             print(name, rating, people_num, info)
-
             book_list.append(
                 [name, rating, people_num, info])
             time.sleep(random.random()*5)
+            if cnt == 3:
+                return book_list
+            cnt += 1
         page_num += 1
         print('Downloading Information From Page %d' % page_num)
         time.sleep(random.random()*5)
-        break
+
     return book_list
 
 
-def get_book_info(url):
-    plain_text = ""
-    try:
-        r = requests.get(url, headers=hds[random.randint(0, len(hds))])
-        print(r.status_code)
-        plain_text = r.text
-        with open('urls/'+url.split('/')[4], 'w') as f:
-            f.write(plain_text)
-    except Exception as e:
-        print(e)
-    soup = BeautifulSoup(plain_text, "html.parser")
-    name = soup.find('span', {'property': 'v:itemreviewed'})
-    rating = soup.find('strong', {'class': 'll rating_num'}).get_text()
-    people_dom = soup.find('a', {'class': 'rating_people'})
-    # people_num = soup.find('div', {'class': 'rating_sum'}).findAll('span')[
-    #     1].string.strip()
-    people_num = "0"
-    if people_dom is None:
-        people_num = 0
-    else:
-        people_num = people_dom.find('span').get_text()
-    info = soup.find('div', id="info").get_text()
+def get_book_info(dom):
+    name = dom.find('div', {'class': 'info'}).find('h2').find('a').get_text()
+    info = dom.find('div', {'class': 'info'}).find(
+        'div', {'class': 'pub'}).get_text()
+    rating = dom.find('div', {'class': 'info'}).find(
+        'span', {'class': 'rating_nums'}).get_text()
+    people_num = dom.find('div', {'class': 'info'}).find(
+        'span', {'class': 'pl'}).get_text()
     return [name, rating, people_num, info]
-
-
-# def get_people_num(url):
-#     # url='http://book.douban.com/subject/6082808/?from=tag_all' # For Test
-#     try:
-#         r = requests.get(url, headers=hds[random.randint(0, len(hds))])
-#         plain_text = r.text
-#     except Exception as e:
-#         print(e)
-#     soup = BeautifulSoup(plain_text)
-#     people_num = soup.find('div', {'class': 'rating_sum'}).findAll('span')[
-#         1].string.strip()
-#     return people_num
 
 
 def do_spider(book_tag_lists):
@@ -102,15 +74,15 @@ def print_book_lists_excel(book_lists, book_tag_lists):
         # utf8->unicode
         ws.append(wb.create_sheet(title=book_tag_lists[i]))
     for i in range(len(book_tag_lists)):
-        ws[i].append(['序号', '书名', '评分', '评价人数', '作者', '出版社'])
+        ws[i].append(['序号', '书名', '评分', '评价人数', '信息'])
         count = 1
         for bl in book_lists[i]:
-            ws[i].append([count, bl[0], float(bl[1]),
-                          int(bl[2]), bl[3], bl[4]])
+            ws[i].append([count, bl[0], bl[1],
+                          bl[2], bl[3]])
             count += 1
     save_path = 'book_list'
     for i in range(len(book_tag_lists)):
-        save_path += ('-'+book_tag_lists[i].decode())
+        save_path += ('-'+book_tag_lists[i])
     save_path += '.xlsx'
     wb.save(save_path)
 
@@ -123,11 +95,12 @@ if __name__ == '__main__':
     # book_tag_lists = ['数学']
     # book_tag_lists = ['摄影','设计','音乐','旅行','教育','成长','情感','育儿','健康','养生']
     # book_tag_lists = ['商业','理财','管理']
-    book_tag_lists = ['名著']
+    book_tag_lists = ['经济学', '管理', '经济', '商业', '金融',
+                      '投资', '营销', '理财', '创业', '股票', '广告', '企业史', '策划']
     # book_tag_lists = ['科普','经典','生活','心灵','文学']
     # book_tag_lists = ['科幻','思维','金融']
     # book_tag_lists = ['个人管理', '时间管理', '投资', '文化', '宗教']
     book_lists = do_spider(book_tag_lists)
-    print(book_lists)
-    # print_book_lists_excel(book_lists, book_tag_lists)
+    # print(book_lists)
+    print_book_lists_excel(book_lists, book_tag_lists)
     # print(get_book_info('https://book.douban.com/subject/1449351/'))
