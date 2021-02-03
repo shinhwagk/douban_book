@@ -37,6 +37,7 @@ def book_spider(book_tag):
         page_num += 1
         print('Downloading Information From Page %d' % page_num)
         time.sleep(random.random()*5)
+        break
     return book_list
 
 
