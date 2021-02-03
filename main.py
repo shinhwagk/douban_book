@@ -10,7 +10,7 @@ hds = [{'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.
 
 
 def book_spider(book_tag):
-    page_num = 0
+    page_num = 49
     book_list = []
 
     while(True):
@@ -37,7 +37,6 @@ def book_spider(book_tag):
         page_num += 1
         print('Downloading Information From Page %d' % page_num)
         time.sleep(random.random()*5)
-        break
     return book_list
 
 
@@ -59,7 +58,7 @@ def do_spider(book_tag_lists):
     book_lists = []
     for book_tag in book_tag_lists:
         book_list = book_spider(book_tag)
-        book_list = sorted(book_list, key=lambda x: x[1], reverse=True)
+        # book_list = sorted(book_list, key=lambda x: x[1], reverse=True)
         book_lists.append(book_list)
     return book_lists
 
