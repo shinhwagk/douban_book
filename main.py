@@ -30,7 +30,7 @@ def book_spider(book_tag):
             break
 
         for book in books:
-            print(book_tag, page_num, len(book), i)
+            print(book_tag, page_num, len(book))
             name, rating, people_num, info = get_book_info(book)
             book_list.append([name, rating, people_num, info])
             time.sleep(random.random()*5)
