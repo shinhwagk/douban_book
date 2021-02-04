@@ -1,8 +1,9 @@
 import time
 import requests
+import json
 import random
 from bs4 import BeautifulSoup
-from openpyxl import Workbook
+# from openpyxl import Workbook
 
 hds = [{'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'},
        {'User-Agent': 'Mozilla/5.0 (Windows NT 6.2) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.12 Safari/535.11'},
@@ -63,24 +64,24 @@ def do_spider(book_tag_lists):
     return book_lists
 
 
-def print_book_lists_excel(book_lists, book_tag_lists):
-    wb = Workbook()
-    ws = []
-    for i in range(len(book_tag_lists)):
-        # utf8->unicode
-        ws.append(wb.create_sheet(title=book_tag_lists[i]))
-    for i in range(len(book_tag_lists)):
-        ws[i].append(['序号', '书名', '评分', '评价人数', '信息'])
-        count = 1
-        for bl in book_lists[i]:
-            ws[i].append([count, bl[0], bl[1],
-                          bl[2], bl[3]])
-            count += 1
-    save_path = 'book_list'
-    for i in range(len(book_tag_lists)):
-        save_path += ('-'+book_tag_lists[i])
-    save_path += '.xlsx'
-    wb.save(save_path)
+# def print_book_lists_excel(book_lists, book_tag_lists):
+#     wb = Workbook()
+#     ws = []
+#     for i in range(len(book_tag_lists)):
+#         # utf8->unicode
+#         ws.append(wb.create_sheet(title=book_tag_lists[i]))
+#     for i in range(len(book_tag_lists)):
+#         ws[i].append(['序号', '书名', '评分', '评价人数', '信息'])
+#         count = 1
+#         for bl in book_lists[i]:
+#             ws[i].append([count, bl[0], bl[1],
+#                           bl[2], bl[3]])
+#             count += 1
+#     save_path = 'book_list'
+#     for i in range(len(book_tag_lists)):
+#         save_path += ('-'+book_tag_lists[i])
+#     save_path += '.xlsx'
+#     wb.save(save_path)
 
 
 if __name__ == '__main__':
@@ -99,5 +100,7 @@ if __name__ == '__main__':
     # book_tag_lists = ['个人管理', '时间管理', '投资', '文化', '宗教']
     for tag in book_tag_lists:
         book_lists = do_spider([tag])
-        print_book_lists_excel(book_lists, book_tag_lists)
+        with open('books_%s.json', 'w') as f:
+            f.write(json.dumps(book_lists))
+        # print_book_lists_excel(book_lists, book_tag_lists)
     # print(get_book_info('https://book.douban.com/subject/1449351/'))
