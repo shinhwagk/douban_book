@@ -15,7 +15,7 @@ jobs:
     - run: mkdir urls
     - run: |
         mkdir -p books
-        cat book_targs | while read tag; do
+        cat book_tags | while read tag; do
           python main.py $tag
           git config --global user.email "shinhwagk@outlook.com"
           git config --global user.name "shinhwagk"
