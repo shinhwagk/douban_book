@@ -1,8 +1,10 @@
+from bs4 import BeautifulSoup
+import random
 import time
 import requests
 import json
-import random
-from bs4 import BeautifulSoup
+import sys
+import os
 # from openpyxl import Workbook
 
 hds = [{'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'},
@@ -92,15 +94,15 @@ if __name__ == '__main__':
     # book_tag_lists = ['数学']
     # book_tag_lists = ['摄影','设计','音乐','旅行','教育','成长','情感','育儿','健康','养生']
     # book_tag_lists = ['商业','理财','管理']
-    book_tag_lists = ['经济学', '管理', '经济', '商业', '金融',
-                      '投资', '营销', '理财', '创业', '股票', '企业史', '策划']
+    # book_tag_lists = ['经济学', '管理', '经济', '商业', '金融',
+    #                   '投资', '营销', '理财', '创业', '股票', '企业史', '策划']
     # book_tag_lists = ['经济学']
     # book_tag_lists = ['科普','经典','生活','心灵','文学']
     # book_tag_lists = ['科幻','思维','金融']
     # book_tag_lists = ['个人管理', '时间管理', '投资', '文化', '宗教']
-    for tag in book_tag_lists:
-        book_lists = do_spider([tag])
-        with open('books_%s.json', 'w') as f:
-            f.write(json.dumps(book_lists))
+    tag = sys.argv[1]
+    book_lists = do_spider([tag])
+    with open('books/%s.json', 'w') as f:
+        f.write(json.dumps(book_lists))
         # print_book_lists_excel(book_lists, book_tag_lists)
     # print(get_book_info('https://book.douban.com/subject/1449351/'))
