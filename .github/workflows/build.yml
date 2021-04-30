@@ -16,6 +16,9 @@ jobs:
     - run: |
         mkdir -p books
         cat book_tags | while read tag; do
+          if [[ -f "books/${tag}.json" ]]; then
+            continue
+          fi
           python main.py $tag
           git config --global user.email "shinhwagk@outlook.com"
           git config --global user.name "shinhwagk"

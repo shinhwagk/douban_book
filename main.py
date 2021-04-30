@@ -31,12 +31,10 @@ def book_spider(book_tag):
         books = soup.find_all('li', {'class', 'subject-item'}) or []
         if len(books) == 0:
             break
-
         for book in books:
             print(book_tag, page_num, len(book))
             name, rating, people_num, info = get_book_info(book)
             book_list.append([name, rating, people_num, info])
-            time.sleep(random.random()*5)
         page_num += 1
         print('Downloading Information From Page %d' % page_num)
         time.sleep(random.random()*5)
@@ -102,7 +100,7 @@ if __name__ == '__main__':
     # book_tag_lists = ['个人管理', '时间管理', '投资', '文化', '宗教']
     tag = sys.argv[1]
     book_lists = do_spider([tag])
-    with open('books/%s.json' % tag, 'w') as f:
-        f.write(json.dumps(book_lists))
+    with open('books/%s.json' % tag, 'w', encoding='utf-8') as f:
+        f.write(json.dumps(book_lists, ensure_ascii=False))
         # print_book_lists_excel(book_lists, book_tag_lists)
     # print(get_book_info('https://book.douban.com/subject/1449351/'))
