@@ -58,8 +58,7 @@ def get_book_info(dom):
 def do_spider(book_tag_lists):
     book_lists = []
     for book_tag in book_tag_lists:
-        book_list = book_spider(book_tag)
-        for book in book_list:
+        for book in book_spider(book_tag):
             book_lists.append(book)
     return book_lists
 
