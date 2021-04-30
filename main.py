@@ -59,8 +59,8 @@ def do_spider(book_tag_lists):
     book_lists = []
     for book_tag in book_tag_lists:
         book_list = book_spider(book_tag)
-        # book_list = sorted(book_list, key=lambda x: x[1], reverse=True)
-        book_lists.append(book_list)
+        for book in book_list:
+            book_lists.append(book)
     return book_lists
 
 
