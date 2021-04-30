@@ -1,10 +1,13 @@
-from bs4 import BeautifulSoup
-import random
-import time
-import requests
+import csv
 import json
-import sys
 import os
+import random
+import sys
+import time
+
+import requests
+from bs4 import BeautifulSoup
+
 # from openpyxl import Workbook
 
 hds = [{'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'},
@@ -41,9 +44,11 @@ def book_spider(book_tag):
 
 
 def get_book_info(dom):
-    name = dom.find('div', {'class': 'info'}).find('h2').find('a').get_text()
-    dou_id = name = dom.find('div', {'class': 'info'}).find(
-        'h2').find('a')['href'][32:][:-1]
+    name_dom = dom.find('div', {'class': 'info'}).find(
+        'h2').find('a')
+    dou_name = name_dom.get_text()
+    # https://book.douban.com/subject/35217952/
+    dou_id = name_dom['href'][32:][:-1]
     info = dom.find('div', {'class': 'info'}).find(
         'div', {'class': 'pub'}).get_text()
     rating_dom = dom.find('div', {'class': 'info'}).find(
