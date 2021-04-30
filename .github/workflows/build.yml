@@ -22,6 +22,6 @@ jobs:
           git config --global user.email "shinhwagk@outlook.com"
           git config --global user.name "shinhwagk"
           git add books
-          git commit -m "test"
+          git commit -m "push ${tag}"
           git push
         done
