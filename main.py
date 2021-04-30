@@ -58,7 +58,7 @@ def get_book_info(dom):
         rating = rating_dom.get_text()
     people_num = dom.find('div', {'class': 'info'}).find(
         'span', {'class': 'pl'}).get_text()
-    return [dou_id, name, rating, people_num, info]
+    return [dou_id, dou_name, rating, people_num, info]
 
 
 def do_spider(book_tag_lists):
