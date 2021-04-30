@@ -32,9 +32,8 @@ def book_spider(book_tag):
         if len(books) == 0:
             break
         for book in books:
-            print(book_tag, page_num, len(book))
-            name, rating, people_num, info = get_book_info(book)
-            book_list.append([name, rating, people_num, info])
+            book_info = get_book_info(book)
+            book_list.append(book_info)
         page_num += 1
         print('Downloading Information From Page %d' % page_num)
         time.sleep(random.random()*5)
@@ -43,6 +42,8 @@ def book_spider(book_tag):
 
 def get_book_info(dom):
     name = dom.find('div', {'class': 'info'}).find('h2').find('a').get_text()
+    dou_id = name = dom.find('div', {'class': 'info'}).find(
+        'h2').find('a')['href'][32:][:-1]
     info = dom.find('div', {'class': 'info'}).find(
         'div', {'class': 'pub'}).get_text()
     rating_dom = dom.find('div', {'class': 'info'}).find(
@@ -52,7 +53,7 @@ def get_book_info(dom):
         rating = rating_dom.get_text()
     people_num = dom.find('div', {'class': 'info'}).find(
         'span', {'class': 'pl'}).get_text()
-    return [name, rating, people_num, info]
+    return [dou_id, name, rating, people_num, info]
 
 
 def do_spider(book_tag_lists):
